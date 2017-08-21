@@ -14,10 +14,10 @@ Perfect plan!
 
 Tested with Blender 2.78c
 '''
+import bpy
 
 _def_prefix = 'DEF-'
-_teeth_eye_def_prefix = 'ORG-' # somehow eye and teeth deform bones does not start witn 'DEF-'
-
+_org_prefix = 'ORG-'
 def metarig_ik_to_rigify_rig():
     obj_metarig = bpy.data.objects.get('metarig')
     if obj_metarig is None or obj_metarig.type != 'ARMATURE':
@@ -26,14 +26,17 @@ def metarig_ik_to_rigify_rig():
     if obj_generated_rig is None or obj_generated_rig.type != 'ARMATURE':
         pass  #TODO: raise an exception
     for bone in obj_metarig.pose.bones:
-        if bone.name.startswith('eye.') or bone.name.startswith('teeth.'):
-            target_name = _teeth_eye_def_prefix + bone.name
-        else:
-            target_name = _def_prefix + bone.name
+        print("looking for target for {}".format(bone.name))
+        target_name = _def_prefix + bone.name
+        if not obj_generated_rig.pose.bones.get(target_name):
+            target_name = _org_prefix + bone.name
         if obj_generated_rig.pose.bones.get(target_name):
+            print("    found {}".format(target_name))
             constraint = bone.constraints.new('COPY_TRANSFORMS')
             constraint.target = obj_generated_rig
             constraint.subtarget = target_name
+        else:
+            print("Couldn't find target for {}".format(bone.name))
 
 if __name__ == '__main__':
     metarig_ik_to_rigify_rig()
