@@ -6,6 +6,7 @@ object.... just to clean up the view...
 
 Tested with Blender 2.78c
 '''
+import bpy
 
 WGT_parent_object_name = "rigify_WGT"
 

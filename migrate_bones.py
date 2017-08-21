@@ -3,6 +3,7 @@
 '''
 ummmmm....just used to copy bone transformations
 '''
+import bpy
 
 def copy_bone_matrices():
     obj_metarig = bpy.data.objects.get('metarig')
