@@ -1,4 +1,4 @@
-# Copyright 2018 Windy Darian (Ruoyu Fan). MIT License.
+# Copyright 2018-2019 Windy Darian. MIT License.
 '''
 Toggle all bone constraints in the armature named "armature"
 Blender 2.79b

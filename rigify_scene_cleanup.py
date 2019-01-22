@@ -1,4 +1,4 @@
-# Copyright 2017 Windy Darian (Ruoyu Fan). MIT License.
+# Copyright 2017-2019 Windy Darian. MIT License.
 # Created on August 20, 2017
 '''
 This script will parent all objects whose name start with "WGT-" to an empty

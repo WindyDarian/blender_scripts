@@ -1,4 +1,4 @@
-# Copyright 2017 Windy Darian (Ruoyu Fan). MIT License.
+# Copyright 2017-2019 Windy Darian. MIT License.
 # Created on May 13, 2017
 '''
 ummmmm....just used to copy bone transformations
