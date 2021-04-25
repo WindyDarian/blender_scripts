@@ -31,7 +31,20 @@ def metarig_ik_to_rigify_rig():
             constraint.subtarget = target_name
         else:
             print("Couldn't find target for {}".format(bone.name))
-
+'''
+def clean_up_invalid_data():
+    obj_metarig = bpy.data.objects.get('armature')
+    if obj_metarig is None or obj_metarig.type != 'ARMATURE':
+        pass  #TODO: raise an exception
+    for bone in obj_metarig.pose.bones:
+        print(bone.constraints)
+        constraints_to_delete = []
+        for constraint in bone.constraints:
+            if isinstance(constraint, bpy.types.CopyTransformsConstraint) and not constraint.target:
+                constraints_to_delete.append(constraint)
+        for constraint in constraints_to_delete:
+            bone.constraints.remove(constraint)
+'''
 if __name__ == '__main__':
     metarig_ik_to_rigify_rig()
     print('Job done!')
