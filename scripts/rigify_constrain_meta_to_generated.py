@@ -40,6 +40,10 @@ class AddMetarigConstraints(bpy.types.Operator):
                 constraint = bone.constraints.new('COPY_TRANSFORMS')
                 constraint.target = obj_generated_rig
                 constraint.subtarget = target_name
+                if bone.name.startswith('heel.'):
+                    # hack to fix heel orientation between metarig and rigify rig.
+                    constraint.owner_space = 'LOCAL'
+                    constraint.target_space = 'LOCAL'
             else:
                 self.report({'INFO'}, "Couldn't find target for {}".format(bone.name))
         return {'FINISHED'} 
