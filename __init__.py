@@ -7,12 +7,12 @@ bl_info = {
     "category": "Development",
 }
 
-from .scripts.rigify_constrain_meta_to_generated import AddMetarigConstraints
+from .scripts import rigify_constrain_meta_to_generated
 import bpy
 
 
 def register():
-    bpy.utils.register_class(AddMetarigConstraints)
+    rigify_constrain_meta_to_generated.register()
 
 def unregister():
-    bpy.utils.unregister_class(AddMetarigConstraints)
+    rigify_constrain_meta_to_generated.unregister()
