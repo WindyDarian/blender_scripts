@@ -8,6 +8,9 @@ Assuming the meta rig is named 'armature' and generated rig is named 'rig'
 
 Tested with Blender 3.3
 '''
+from .windy_menu import WindyView3dMenu
+
+from re import S
 import bpy
 
 _def_prefix = 'DEF-'
@@ -90,13 +93,20 @@ class RemoveMetarigConstraints(bpy.types.Operator):
     def execute(self, context):
         return self.remove_metarig_constraints()
 
+def menu_func(self, context):
+    self.layout.separator()
+    self.layout.operator(AddMetarigConstraints.bl_idname)
+    self.layout.operator(RemoveMetarigConstraints.bl_idname)
+
 def register():
     bpy.utils.register_class(AddMetarigConstraints)
     bpy.utils.register_class(RemoveMetarigConstraints)
+    bpy.types.VIEW3D_MT_windy.append(menu_func)
 
 def unregister():
-    bpy.utils.unregister_class(AddMetarigConstraints)
+    bpy.types.VIEW3D_MT_windy.remove(menu_func)
     bpy.utils.unregister_class(RemoveMetarigConstraints)
+    bpy.utils.unregister_class(AddMetarigConstraints)
 
 if __name__ == '__main__':
     register()

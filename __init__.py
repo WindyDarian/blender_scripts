@@ -7,12 +7,14 @@ bl_info = {
     "category": "Development",
 }
 
-from .scripts import rigify_constrain_meta_to_generated
+from .scripts import windy_menu, rigify_constrain_meta_to_generated
 import bpy
 
 
 def register():
+    windy_menu.register()
     rigify_constrain_meta_to_generated.register()
 
 def unregister():
     rigify_constrain_meta_to_generated.unregister()
+    windy_menu.unregister()
