@@ -15,6 +15,7 @@ import bpy
 
 _def_prefix = 'DEF-'
 _org_prefix = 'ORG-'
+_ignored_bones = ['forearm_twist.R', 'forearm_twist.L']
 
 def _remove_metarig_bone_rigify_constraint(bone, obj_generated_rig):
     constraints_to_delete = []
@@ -28,6 +29,9 @@ def _add_metarig_bone_rigify_constraint(bone, obj_generated_rig, operator = None
     target_name = _def_prefix + bone.name
     if not obj_generated_rig.pose.bones.get(target_name):
         target_name = _org_prefix + bone.name
+    if not obj_generated_rig.pose.bones.get(target_name):
+        # some bones have the same name in metarig and rigify rig, for example "root"
+        target_name = bone.name
     if obj_generated_rig.pose.bones.get(target_name):
         #print("    found {}".format(target_name))
         constraint = bone.constraints.new('COPY_TRANSFORMS')
@@ -60,6 +64,8 @@ class AddMetarigConstraints(bpy.types.Operator):
             self.report({'INFO'}, 'invalid rigify rig ' + str(obj_generated_rig))
             return {'CANCELLED'}
         for bone in obj_metarig.pose.bones:
+            if bone.name in _ignored_bones:
+                continue
             # Clear old constraint data.
             _remove_metarig_bone_rigify_constraint(bone, obj_generated_rig)
             _add_metarig_bone_rigify_constraint(bone, obj_generated_rig, operator=self)
