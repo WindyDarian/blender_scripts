@@ -17,6 +17,14 @@ _def_prefix = 'DEF-'
 _org_prefix = 'ORG-'
 _ignored_bones = ['forearm_twist.R', 'forearm_twist.L']
 
+def _find_generated_rig(obj_metarig):
+    obj_generated_rig = obj_metarig.data.rigify_target_rig
+    if obj_generated_rig is None or obj_generated_rig.type != 'ARMATURE':
+        obj_generated_rig = bpy.data.objects.get('rig')
+    if obj_generated_rig is None or obj_generated_rig.type != 'ARMATURE':
+        return None
+    return obj_generated_rig
+
 def _remove_metarig_bone_rigify_constraint(bone, obj_generated_rig):
     constraints_to_delete = []
     for constraint in bone.constraints:
@@ -59,7 +67,7 @@ class AddMetarigConstraints(bpy.types.Operator):
         if obj_metarig is None or obj_metarig.type != 'ARMATURE':
             self.report({'INFO'}, 'metarig needs to be selected!')
             return {'CANCELLED'}
-        obj_generated_rig = obj_metarig.data.rigify_target_rig
+        obj_generated_rig = _find_generated_rig(obj_metarig)
         if obj_generated_rig is None or obj_generated_rig.type != 'ARMATURE':
             self.report({'INFO'}, 'invalid rigify rig ' + str(obj_generated_rig))
             return {'CANCELLED'}
@@ -87,7 +95,7 @@ class RemoveMetarigConstraints(bpy.types.Operator):
         if obj_metarig is None or obj_metarig.type != 'ARMATURE':
             self.report({'INFO'}, 'metarig needs to be selected!')
             return {'CANCELLED'}
-        obj_generated_rig = obj_metarig.data.rigify_target_rig
+        obj_generated_rig = _find_generated_rig(obj_metarig)
         if obj_generated_rig is None or obj_generated_rig.type != 'ARMATURE':
             self.report({'INFO'}, 'invalid rigify rig ' + str(obj_generated_rig))
             return {'CANCELLED'}
